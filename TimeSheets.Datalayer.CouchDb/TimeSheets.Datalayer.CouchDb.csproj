@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <Version>1.0.0</Version>
+    <Authors>Yamal</Authors>
+    <Company>Yamal</Company>
+    <Product>CMAS</Product>
+    <Description>Time Sheets Couchdb Layer</Description>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <PostBuildEvent>echo "$(OutDir)"</PostBuildEvent>
+    <AssemblyName>Cmas.DataLayers.CouchDb.TimeSheets</AssemblyName>
+    <RootNamespace>Cmas.DataLayers.CouchDb.TimeSheets</RootNamespace>
+    <PackageId>Cmas.DataLayers.CouchDb.TimeSheets</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.0.1" />
+    <PackageReference Include="Cmas.Infrastructure.Domain" Version="*" />
+    <PackageReference Include="Cmas.BusinessLayers.TimeSheets" Version="*" />
+    <PackageReference Include="Cmas.DataLayers.Clients.CouchClient" Version="*" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+</Project>
