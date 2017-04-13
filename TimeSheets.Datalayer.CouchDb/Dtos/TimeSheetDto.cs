@@ -38,18 +38,18 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Dtos
         /// <summary>
         /// Год
         /// </summary>
-        public int? Year;
+        public int Year;
 
         /// <summary>
         /// Месяц
         /// </summary>
-        public int? Month;
+        public int Month;
 
         /// <summary>
         /// Рабочее время в разрезе работ
         /// Dictionary<{ID ставки}, IEnumerable<{время по каждому дню в месяце}>>
         /// </summary>
-        public Dictionary<string, IEnumerable<double>> Times;
+        public Dictionary<string, IEnumerable<double>> SpentTime;
 
         /// <summary>
         /// Статус
