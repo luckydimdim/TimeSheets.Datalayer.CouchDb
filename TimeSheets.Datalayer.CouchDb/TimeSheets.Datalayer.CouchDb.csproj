@@ -25,6 +25,7 @@
     <PackageReference Include="Cmas.Infrastructure.Domain" Version="*" />
     <PackageReference Include="Cmas.BusinessLayers.TimeSheets" Version="*" />
     <PackageReference Include="Cmas.DataLayers.Clients.CouchClient" Version="*" />
+    <PackageReference Include="Cmas.Infrastructure.ErrorHandler" Version="*" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
