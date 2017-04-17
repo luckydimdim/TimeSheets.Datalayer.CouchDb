@@ -21,6 +21,11 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Dtos
         public string CallOffOrderId;
 
         /// <summary>
+        /// Идентификатор заявки на проверку (null, если не принадлежит заявке)
+        /// </summary>
+        public string RequestId;
+
+        /// <summary>
         /// Дата и время создания
         /// </summary>
         public DateTime CreatedAt;
