@@ -57,6 +57,11 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Dtos
         public Dictionary<string, IEnumerable<double>> SpentTime;
 
         /// <summary>
+        /// Сумма по табелю
+        /// </summary>
+        public double Amount;
+
+        /// <summary>
         /// Статус
         /// </summary>
         public int Status;
