@@ -34,5 +34,10 @@
         /// Имя представления документов, сгрупированных по ID наряд заказа и заявки на проверку
         /// </summary>
         public const string ByCallOffOrderAndRequestDocsViewName = "byCallOffOrderAndRequest";
+
+        /// <summary>
+        /// Имя представления документов, сгрупированных по ID заявки
+        /// </summary>
+        public const string ByRequestIdDocsViewName = "byRequestId";
     }
 }

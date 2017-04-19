@@ -28,8 +28,8 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
             using (var client = new MyCouchClient(DbConsts.DbConnectionString, DbConsts.DbName))
             {
                 var query =
-                    new CouchRequest.QueryViewRequest(DbConsts.DesignDocumentName, DbConsts.ByCallOffOrderDocsViewName)
-                        .Configure(q => q.Keys(new string[] {criterion.CallOffOrderId, criterion.RequestId}));
+                    new CouchRequest.QueryViewRequest(DbConsts.DesignDocumentName, DbConsts.ByCallOffOrderAndRequestDocsViewName)
+                        .Configure(q => q.Key(new string[] {criterion.CallOffOrderId, criterion.RequestId}));
 
                 var viewResult = await client.Views.QueryAsync<TimeSheetDto>(query);
 
