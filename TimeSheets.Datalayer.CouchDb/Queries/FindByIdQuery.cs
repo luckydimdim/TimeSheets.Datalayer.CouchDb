@@ -1,45 +1,35 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Cmas.BusinessLayers.TimeSheets.Entities;
 using Cmas.DataLayers.CouchDb.TimeSheets.Dtos;
+using Cmas.DataLayers.Infrastructure;
 using Cmas.Infrastructure.Domain.Criteria;
 using Cmas.Infrastructure.Domain.Queries;
-using Cmas.Infrastructure.ErrorHandler;
-using MyCouch;
-using MyCouch.Responses;
+using Microsoft.Extensions.Logging;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
     public class FindByIdQuery : IQuery<FindById, Task<TimeSheet>>
     {
-        private IMapper _autoMapper;
+        private readonly IMapper _autoMapper;
+        private readonly ILogger _logger;
+        private readonly CouchWrapper _couchWrapper;
 
-        public FindByIdQuery(IMapper autoMapper)
+        public FindByIdQuery(IMapper autoMapper, ILoggerFactory loggerFactory)
         {
             _autoMapper = autoMapper;
+            _logger = loggerFactory.CreateLogger<FindByIdQuery>();
+            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
         }
 
         public async Task<TimeSheet> Ask(FindById criterion)
         {
-            using (var client = new MyCouchClient(DbConsts.DbConnectionString, DbConsts.DbName))
+            var result = await _couchWrapper.GetResponseAsync(async (client) =>
             {
-                GetEntityResponse<TimeSheetDto> result = await client.Entities.GetAsync<TimeSheetDto>(criterion.Id);
-            
-                if (!result.IsSuccess)
-                {
-                    if (result.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        throw new NotFoundErrorException(result.ToStringDebugVersion());
-                    }
+                return await client.Entities.GetAsync<TimeSheetDto>(criterion.Id);
+            });
 
-                    throw new Exception(result.ToStringDebugVersion());
-                }
-
-                return _autoMapper.Map<TimeSheet>(result.Content);
-            }
-
+            return _autoMapper.Map<TimeSheet>(result.Content);
         }
     }
 }

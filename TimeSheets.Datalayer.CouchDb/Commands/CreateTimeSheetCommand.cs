@@ -1,44 +1,38 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Cmas.DataLayers.CouchDb.TimeSheets.Dtos;
 using Cmas.Infrastructure.Domain.Commands;
-using MyCouch;
 using Cmas.BusinessLayers.TimeSheets.CommandsContexts;
+using Cmas.DataLayers.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Commands
 {
     public class CreateTimeSheetCommand : ICommand<CreateTimeSheetCommandContext>
     {
         private IMapper _autoMapper;
+        private readonly ILogger _logger;
+        private readonly CouchWrapper _couchWrapper;
 
-        public CreateTimeSheetCommand(IMapper autoMapper)
+        public CreateTimeSheetCommand(IMapper autoMapper, ILoggerFactory loggerFactory)
         {
             _autoMapper = autoMapper;
+            _logger = loggerFactory.CreateLogger<CreateTimeSheetCommand>();
+            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
         }
 
         public async Task<CreateTimeSheetCommandContext> Execute(CreateTimeSheetCommandContext commandContext)
         {
-            using (var store = new MyCouchStore(DbConsts.DbConnectionString, DbConsts.DbName))
+            var doc = _autoMapper.Map<TimeSheetDto>(commandContext.TimeSheet);
+
+            var result = await _couchWrapper.GetResponseAsync(async (client) =>
             {
-                var doc = _autoMapper.Map<TimeSheetDto>(commandContext.TimeSheet);
+                return await client.Entities.PostAsync(doc);
+            });
 
-                doc._id = null;
-                doc._rev = null;
+            commandContext.Id = result.Id;
 
-                var result = await store.Client.Entities.PostAsync(doc);
-
-                if (!result.IsSuccess)
-                {
-                    throw new Exception(result.Error);
-                }
-
-                commandContext.Id = result.Id;
-
-
-                return commandContext;
-            }
-
+            return commandContext;
         }
     }
 }

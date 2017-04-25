@@ -9,7 +9,11 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets
     {
         public AutoMapperProfile()
         {
-            CreateMap<TimeSheet, TimeSheetDto>();
+            CreateMap<TimeSheet, TimeSheetDto>() 
+                .ForMember(
+                    dest => dest._id,
+                    opt => opt.MapFrom(src => src.Id));
+
             CreateMap<TimeSheetDto, TimeSheet>()
                 .ForMember(
                     dest => dest.Id,
