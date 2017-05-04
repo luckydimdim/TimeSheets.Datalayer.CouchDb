@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Cmas.Infrastructure.Domain.Queries;
@@ -6,10 +7,11 @@ using CouchRequest = MyCouch.Requests;
 using Cmas.BusinessLayers.TimeSheets.Criteria;
 using Cmas.DataLayers.Infrastructure;
 using Microsoft.Extensions.Logging;
+using Cmas.BusinessLayers.TimeSheets.Entities;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
-    public class FindByRequestIdQuery : IQuery<FindByRequestId, Task<IEnumerable<string>>>
+    public class FindByRequestIdQuery : IQuery<FindByRequestId, Task<IEnumerable<TimeSheet>>>
     {
         private IMapper _autoMapper;
         private readonly ILogger _logger;
@@ -22,9 +24,9 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
             _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
         }
 
-        public async Task<IEnumerable<string>> Ask(FindByRequestId criterion)
+        public async Task<IEnumerable<TimeSheet>> Ask(FindByRequestId criterion)
         {
-            var result = new List<string>();
+            var result = new List<TimeSheet>();
 
             var query =
                 new CouchRequest.QueryViewRequest(DbConsts.DesignDocumentName, DbConsts.ByRequestIdDocsViewName)
@@ -32,12 +34,12 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 
             var viewResult = await _couchWrapper.GetResponseAsync(async (client) =>
             {
-                return await client.Views.QueryAsync(query);
+                return await client.Views.QueryAsync<TimeSheet>(query);
             });
 
-            foreach (var row in viewResult.Rows)
+            foreach (var row in viewResult.Rows.OrderBy(t => t.Value.Id))
             {
-                result.Add(row.Id);
+                result.Add(_autoMapper.Map<TimeSheet>(row.Value));
             }
 
             return result;
