@@ -8,6 +8,7 @@ using Cmas.BusinessLayers.TimeSheets.Criteria;
 using Cmas.DataLayers.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Cmas.BusinessLayers.TimeSheets.Entities;
+using Cmas.DataLayers.CouchDb.TimeSheets.Dtos;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
@@ -34,10 +35,10 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 
             var viewResult = await _couchWrapper.GetResponseAsync(async (client) =>
             {
-                return await client.Views.QueryAsync<TimeSheet>(query);
+                return await client.Views.QueryAsync<TimeSheetDto>(query);
             });
 
-            foreach (var row in viewResult.Rows.OrderBy(t => t.Value.Id))
+            foreach (var row in viewResult.Rows.OrderBy(t => t.Value._id))
             {
                 result.Add(_autoMapper.Map<TimeSheet>(row.Value));
             }
