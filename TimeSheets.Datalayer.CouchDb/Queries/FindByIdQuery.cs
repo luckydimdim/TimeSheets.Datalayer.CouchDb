@@ -6,20 +6,20 @@ using Cmas.DataLayers.Infrastructure;
 using Cmas.Infrastructure.Domain.Criteria;
 using Cmas.Infrastructure.Domain.Queries;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
     public class FindByIdQuery : IQuery<FindById, Task<TimeSheet>>
     {
         private readonly IMapper _autoMapper;
-        private readonly ILogger _logger;
         private readonly CouchWrapper _couchWrapper;
 
-        public FindByIdQuery(IMapper autoMapper, ILoggerFactory loggerFactory)
+        public FindByIdQuery(IServiceProvider serviceProvider)
         {
-            _autoMapper = autoMapper;
-            _logger = loggerFactory.CreateLogger<FindByIdQuery>();
-            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
+            _autoMapper = (IMapper)serviceProvider.GetService(typeof(IMapper));
+
+            _couchWrapper = new CouchWrapper(serviceProvider, DbConsts.ServiceName);
         }
 
         public async Task<TimeSheet> Ask(FindById criterion)

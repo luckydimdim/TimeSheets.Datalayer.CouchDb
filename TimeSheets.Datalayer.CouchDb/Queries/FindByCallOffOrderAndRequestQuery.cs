@@ -15,15 +15,14 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
     public class FindByCallOffOrderAndRequestQuery : IQuery<FindByCallOffOrderAndRequest, Task<TimeSheet>>
     {
-        private IMapper _autoMapper;
-        private readonly ILogger _logger;
+        private readonly IMapper _autoMapper;
         private readonly CouchWrapper _couchWrapper;
 
-        public FindByCallOffOrderAndRequestQuery(IMapper autoMapper, ILoggerFactory loggerFactory)
+        public FindByCallOffOrderAndRequestQuery(IServiceProvider serviceProvider)
         {
-            _autoMapper = autoMapper;
-            _logger = loggerFactory.CreateLogger<FindByCallOffOrderAndRequestQuery>();
-            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
+            _autoMapper = (IMapper)serviceProvider.GetService(typeof(IMapper));
+
+            _couchWrapper = new CouchWrapper(serviceProvider, DbConsts.ServiceName);
         }
 
         public async Task<TimeSheet> Ask(FindByCallOffOrderAndRequest criterion)

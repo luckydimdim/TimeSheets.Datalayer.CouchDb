@@ -6,14 +6,9 @@
     internal class DbConsts
     {
         /// <summary>
-        /// Имя БД
+        /// Имя сущности
         /// </summary>
-        public const string DbName = "time-sheets";    //FIXME: перенести в конфиг
-
-        /// <summary>
-        /// Строка подключения к БД
-        /// </summary>
-        public const string DbConnectionString = "http://cmas-backend:backend967@cm-ylng-msk-03:5984";    //FIXME: перенести в конфиг
+        public const string ServiceName = "time-sheets";
 
         /// <summary>
         /// Имя дизайн документа

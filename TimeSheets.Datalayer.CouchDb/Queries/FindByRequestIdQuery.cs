@@ -6,23 +6,22 @@ using Cmas.Infrastructure.Domain.Queries;
 using CouchRequest = MyCouch.Requests;
 using Cmas.BusinessLayers.TimeSheets.Criteria;
 using Cmas.DataLayers.Infrastructure;
-using Microsoft.Extensions.Logging;
 using Cmas.BusinessLayers.TimeSheets.Entities;
 using Cmas.DataLayers.CouchDb.TimeSheets.Dtos;
+using System;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
     public class FindByRequestIdQuery : IQuery<FindByRequestId, Task<IEnumerable<TimeSheet>>>
     {
-        private IMapper _autoMapper;
-        private readonly ILogger _logger;
+        private readonly IMapper _autoMapper;
         private readonly CouchWrapper _couchWrapper;
 
-        public FindByRequestIdQuery(IMapper autoMapper, ILoggerFactory loggerFactory)
+        public FindByRequestIdQuery(IServiceProvider serviceProvider)
         {
-            _autoMapper = autoMapper;
-            _logger = loggerFactory.CreateLogger<FindByRequestIdQuery>();
-            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
+            _autoMapper = (IMapper)serviceProvider.GetService(typeof(IMapper));
+
+            _couchWrapper = new CouchWrapper(serviceProvider, DbConsts.ServiceName);
         }
 
         public async Task<IEnumerable<TimeSheet>> Ask(FindByRequestId criterion)

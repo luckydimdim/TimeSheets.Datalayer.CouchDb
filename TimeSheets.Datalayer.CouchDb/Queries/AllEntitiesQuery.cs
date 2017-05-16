@@ -8,21 +8,20 @@ using MyCouch.Requests;
 using Cmas.BusinessLayers.TimeSheets.Entities;
 using Cmas.DataLayers.CouchDb.TimeSheets.Dtos;
 using Cmas.DataLayers.Infrastructure;
-using Microsoft.Extensions.Logging;
+using System;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
     public class AllEntitiesQuery : IQuery<AllEntities, Task<IEnumerable<TimeSheet>>>
     {
-        private IMapper _autoMapper;
-        private readonly ILogger _logger;
+        private readonly IMapper _autoMapper;
         private readonly CouchWrapper _couchWrapper;
 
-        public AllEntitiesQuery(IMapper autoMapper, ILoggerFactory loggerFactory)
+        public AllEntitiesQuery(IServiceProvider serviceProvider)
         {
-            _autoMapper = autoMapper;
-            _logger = loggerFactory.CreateLogger<AllEntitiesQuery>();
-            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
+            _autoMapper = (IMapper)serviceProvider.GetService(typeof(IMapper));
+
+            _couchWrapper = new CouchWrapper(serviceProvider, DbConsts.ServiceName);
         }
 
         public async Task<IEnumerable<TimeSheet>> Ask(AllEntities criterion)

@@ -7,22 +7,21 @@ using Cmas.Infrastructure.Domain.Queries;
 using CouchRequest = MyCouch.Requests;
 using Cmas.BusinessLayers.TimeSheets.Criteria;
 using Cmas.BusinessLayers.TimeSheets.Entities;
-using Microsoft.Extensions.Logging;
 using Cmas.DataLayers.Infrastructure;
+using System;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
     public class FindByCallOffOrderIdQuery : IQuery<FindByCallOffOrderId, Task<IEnumerable<TimeSheet>>>
     {
-        private IMapper _autoMapper;
-        private readonly ILogger _logger;
+        private readonly IMapper _autoMapper;
         private readonly CouchWrapper _couchWrapper;
 
-        public FindByCallOffOrderIdQuery(IMapper autoMapper, ILoggerFactory loggerFactory)
+        public FindByCallOffOrderIdQuery(IServiceProvider serviceProvider)
         {
-            _autoMapper = autoMapper;
-            _logger = loggerFactory.CreateLogger<FindByCallOffOrderIdQuery>();
-            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
+            _autoMapper = (IMapper)serviceProvider.GetService(typeof(IMapper));
+
+            _couchWrapper = new CouchWrapper(serviceProvider, DbConsts.ServiceName);
         }
 
         public async Task<IEnumerable<TimeSheet>> Ask(FindByCallOffOrderId criterion)

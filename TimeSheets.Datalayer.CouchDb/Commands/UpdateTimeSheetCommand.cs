@@ -4,21 +4,20 @@ using Cmas.DataLayers.CouchDb.TimeSheets.Dtos;
 using Cmas.Infrastructure.Domain.Commands;
 using Cmas.BusinessLayers.TimeSheets.CommandsContexts;
 using Cmas.DataLayers.Infrastructure;
-using Microsoft.Extensions.Logging;
+using System;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Commands
 {
     public class UpdateTimeSheetCommand : ICommand<UpdateTimeSheetCommandContext>
     {
-        private IMapper _autoMapper;
-        private readonly ILogger _logger;
+        private readonly IMapper _autoMapper;
         private readonly CouchWrapper _couchWrapper;
 
-        public UpdateTimeSheetCommand(IMapper autoMapper, ILoggerFactory loggerFactory)
+        public UpdateTimeSheetCommand(IServiceProvider serviceProvider)
         {
-            _autoMapper = autoMapper;
-            _logger = loggerFactory.CreateLogger<UpdateTimeSheetCommand>();
-            _couchWrapper = new CouchWrapper(DbConsts.DbConnectionString, DbConsts.DbName, _logger);
+            _autoMapper = (IMapper)serviceProvider.GetService(typeof(IMapper));
+
+            _couchWrapper = new CouchWrapper(serviceProvider, DbConsts.ServiceName);
         }
 
         public async Task<UpdateTimeSheetCommandContext> Execute(UpdateTimeSheetCommandContext commandContext)
