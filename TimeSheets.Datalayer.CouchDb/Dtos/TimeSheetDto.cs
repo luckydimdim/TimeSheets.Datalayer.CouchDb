@@ -62,6 +62,11 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Dtos
         public double Amount;
 
         /// <summary>
+        /// Валюта
+        /// </summary>
+        public string CurrencySysName;
+
+        /// <summary>
         /// Статус
         /// </summary>
         public int Status;
