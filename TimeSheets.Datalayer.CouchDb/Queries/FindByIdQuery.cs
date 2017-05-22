@@ -29,6 +29,9 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
                 return await client.Entities.GetAsync<TimeSheetDto>(criterion.Id);
             });
 
+            if (result == null)
+                return null;
+
             return _autoMapper.Map<TimeSheet>(result.Content);
         }
     }

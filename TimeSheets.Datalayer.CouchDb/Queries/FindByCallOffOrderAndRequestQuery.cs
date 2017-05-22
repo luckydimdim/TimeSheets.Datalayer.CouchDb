@@ -9,7 +9,6 @@ using Cmas.BusinessLayers.TimeSheets.Criteria;
 using Cmas.BusinessLayers.TimeSheets.Entities;
 using Cmas.DataLayers.Infrastructure;
 using Cmas.Infrastructure.ErrorHandler;
-using Microsoft.Extensions.Logging;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
 {
@@ -43,7 +42,7 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries
                     criterion.CallOffOrderId));
 
             if (viewResult.Rows.Length <= 0)
-                throw new NotFoundErrorException();
+                return null;
 
             return _autoMapper.Map<TimeSheet>(viewResult.Rows.First().Value);
         }
