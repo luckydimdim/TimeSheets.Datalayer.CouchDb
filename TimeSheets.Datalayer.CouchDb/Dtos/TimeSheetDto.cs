@@ -41,14 +41,14 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Dtos
         public string Notes;
 
         /// <summary>
-        /// Год
+        /// Период - начало
         /// </summary>
-        public int Year;
+        public DateTime From;
 
         /// <summary>
-        /// Месяц
+        /// Период - окончание
         /// </summary>
-        public int Month;
+        public DateTime Till;
 
         /// <summary>
         /// Рабочее время в разрезе работ
