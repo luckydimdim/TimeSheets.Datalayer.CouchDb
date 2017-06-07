@@ -25,7 +25,7 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Commands
             // FIXME: нельзя так делать, надо от frontend получать Rev
             var header = await _couchWrapper.GetHeaderAsync(commandContext.TimeSheet.Id);
 
-            var entity = _autoMapper.Map<TimeSheetDto>(commandContext.TimeSheet);
+            TimeSheetDto entity = _autoMapper.Map<TimeSheetDto>(commandContext.TimeSheet);
 
             entity._rev = header.Rev;
 

@@ -34,5 +34,10 @@
         /// Имя представления документов, сгрупированных по ID заявки
         /// </summary>
         public const string ByRequestIdDocsViewName = "byRequestId";
+
+        /// <summary>
+        /// Имя представления, которое выводит табели и их вложения
+        /// </summary>
+        public const string AttachmentsViewName = "attachments";
     }
 }

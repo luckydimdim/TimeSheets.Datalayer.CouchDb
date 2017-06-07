@@ -70,6 +70,11 @@ namespace Cmas.DataLayers.CouchDb.TimeSheets.Dtos
         /// Статус
         /// </summary>
         public int Status;
+
+        /// <summary>
+        /// Вложения
+        /// </summary>
+        public Dictionary<string, AttachmentDto> _attachments;
     }
 
 }
