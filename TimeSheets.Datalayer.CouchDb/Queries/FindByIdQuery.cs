@@ -5,7 +5,6 @@ using Cmas.DataLayers.CouchDb.TimeSheets.Dtos;
 using Cmas.DataLayers.Infrastructure;
 using Cmas.Infrastructure.Domain.Criteria;
 using Cmas.Infrastructure.Domain.Queries;
-using Microsoft.Extensions.Logging;
 using System;
 
 namespace Cmas.DataLayers.CouchDb.TimeSheets.Queries

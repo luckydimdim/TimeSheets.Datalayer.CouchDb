@@ -39,5 +39,10 @@
         /// Имя представления, которое выводит табели и их вложения
         /// </summary>
         public const string AttachmentsViewName = "attachments";
+
+        /// <summary>
+        /// Имя представления, которое выводит токены на загрузку файлов
+        /// </summary>
+        public const string AttachmentTokensViewName = "attachmentTokens";
     }
 }
