@@ -36,6 +36,11 @@
         public const string ByRequestIdDocsViewName = "byRequestId";
 
         /// <summary>
+        /// Имя представления идентификаторов табелей, сгрупированных по ID заявки
+        /// </summary>
+        public const string IdsByRequestDocsViewName = "IdsByRequest";
+
+        /// <summary>
         /// Имя представления, которое выводит табели и их вложения
         /// </summary>
         public const string AttachmentsViewName = "attachments";
